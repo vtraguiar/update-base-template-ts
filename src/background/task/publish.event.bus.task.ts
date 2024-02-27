@@ -2,14 +2,14 @@ import { inject, injectable } from 'inversify'
 import { Identifier } from '../../di/identifiers'
 import { IEventBus } from '../../infrastructure/port/event.bus.interface'
 import { IBackgroundTask } from '../../application/port/background.task.interface'
-import { Query } from 'infrastructure/repository/query/query'
-import { IIntegrationEventRepository } from 'application/port/integration.event.repository.interface'
-import { ILogger } from 'utils/custom.logger'
-import { IntegrationEvent } from 'application/integration-event/event/integration.event'
-import { BookSaveEvent } from 'application/integration-event/event/book.save.event'
-import { UserSaveEvent } from 'application/integration-event/event/user.save.event'
-import { Book } from 'application/domain/model/book'
-import { User } from 'application/domain/model/user'
+import { BookSaveEvent } from '../../application/integration-event/event/book.save.event'
+import { Book } from '../../application/domain/model/book'
+import { UserSaveEvent } from '../../application/integration-event/event/user.save.event'
+import { User } from '../../application/domain/model/user'
+import { ILogger } from '../../utils/custom.logger'
+import { IIntegrationEventRepository } from '../../application/port/integration.event.repository.interface'
+import { Query } from '../../infrastructure/repository/query/query'
+import { IntegrationEvent } from '../../application/integration-event/event/integration.event'
 
 @injectable()
 export class PublishEventBusTask implements IBackgroundTask {
@@ -43,18 +43,17 @@ export class PublishEventBusTask implements IBackgroundTask {
                 this._publishEvent(event)
                     .then(success => {
                         if (success) {
-                            this._logger.info(`Event with name ${event.event_name}`
-                            .concat('was successfully published to the event bus.'))
-                        this._integrationEventRepository
-                            .delete(event.id)
-                            .catch(err => {
-                                this._logger.error(`Error trying to remove saved event: ${err.message}`)
-                            })
+                            this._logger.info(`Event with name ${event.event_name}, which was saved, `
+                                .concat('was successfully published to the event bus.'))
+                            this._integrationEventRepository
+                                .delete(event.id)
+                                .catch(err => {
+                                    this._logger.error(`Error trying to remove saved event: ${err.message}`)
+                                })
                         }
-
                     })
                     .catch(() => {
-                        this._logger.error('An error occured while attempting to post the'
+                        this._logger.error('An error occurred while attempting to post the'
                             .concat(`saved event by name ${event.event_name} and ID: ${event.id}`))
                     })
             })
@@ -65,11 +64,11 @@ export class PublishEventBusTask implements IBackgroundTask {
 
     private _publishEvent(event: any): Promise<boolean> {
         if (event.event_name === BookSaveEvent.NAME) {
-            const bookSaveEvent: BookSaveEvent = new BookSaveEvent(
+            const activitySaveEvent: BookSaveEvent = new BookSaveEvent(
                 event.timestamp,
-                new Book().fromJSON(event.book)
+                new Book().fromJSON(event.activity)
             )
-            return this._eventBus.publish(bookSaveEvent, event.__routing_key)
+            return this._eventBus.publish(activitySaveEvent, event.__routing_key)
         }
         if (event.event_name === UserSaveEvent.NAME) {
             const userSaveEvent: UserSaveEvent = new UserSaveEvent(

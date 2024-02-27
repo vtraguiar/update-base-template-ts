@@ -7,10 +7,9 @@ export class UserValidator {
         const fields: Array<string> = []
 
 
-        if (!user.username) fields.push('Name')
-        if (!user.password) fields.push('Password')
+        // validate null
+        if (!user.name) fields.push('Name')
         if (!user.email) fields.push('Email')
-
 
         if (fields.length > 0) {
             throw new ValidationException('Required fields were not provided...',

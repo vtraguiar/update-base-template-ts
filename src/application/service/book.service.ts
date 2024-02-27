@@ -1,17 +1,29 @@
-import { Book } from 'application/domain/model/book'
-import { IBookRepository } from 'application/port/book.repository.interface'
-import { IBookService } from 'application/port/book.service.interface'
-import { IQuery } from 'application/port/query.interface'
-import { Identifier } from 'di/identifiers'
 import { inject, injectable } from 'inversify'
+import { Identifier } from '../../di/identifiers'
+import { IBookService } from '../port/book.service.interface'
+import { IBookRepository } from '../port/book.repository.interface'
+import { Book } from '../domain/model/book'
+import { IQuery } from '../port/query.interface'
 
+/**
+ * Implementing book Service.
+ *
+ * @implements {IBookService}
+ */
 @injectable()
 export class BookService implements IBookService {
 
     constructor(@inject(Identifier.BOOK_REPOSITORY) private readonly _bookRepository: IBookRepository) {
     }
 
-
+    /**
+     * Adds a new book.
+     * Before adding, it is checked whether the book already exists.
+     *
+     * @param {Book} book
+     * @returns {(Promise<Activity>)}
+     * @throws {ConflictException | RepositoryException} If a data conflict occurs, as an existing activity.
+     */
     public async add(book: Book): Promise<Book | undefined> {
         try {
             const result: Book | undefined = await this._bookRepository.create(book)
@@ -21,26 +33,52 @@ export class BookService implements IBookService {
         }
     }
 
+    /**
+     * Get the data of all books in the infrastructure.
+     *
+     * @param query Defines object to be used for queries.
+     * @return {Promise<Array<Book>>}
+     * @throws {RepositoryException}
+     */
     public async getAll(query: IQuery): Promise<Array<Book>> {
         return this._bookRepository.find(query)
     }
 
-
+    /**
+     * Get in infrastructure the books data.
+     *
+     * @param id Unique identifier.
+     * @param query Defines object to be used for queries.
+     * @return {Promise<Activity>}
+     * @throws {RepositoryException}
+     */
     public async getById(id: string | number, query: IQuery): Promise<Book | undefined> {
-        query.filters = {_id: id }
+        query.filters = { _id: id }
         return this._bookRepository.findOne(query)
     }
 
+    /**
+     * Updates book data.
+     *
+     * @param book - Book containing the data to be updated
+     * @return {Promise<Book>}
+     * @throws {ConflictException | RepositoryException}
+     */
     public async update(book: Book): Promise<Book | undefined> {
         return this._bookRepository.update(book)
     }
 
+    /**
+     * Removes the books according to their unique identifier.
+     *
+     * @param id - Unique identifier.
+     * @return {Promise<boolean>}
+     * @throws {ValidationException | RepositoryException}
+     */
     public async remove(id: string): Promise<boolean> {
         return this._bookRepository.delete(id)
     }
 
-    public async count(query: IQuery): Promise<number> {
+    public count(query: IQuery): Promise<number> {
         return Promise.resolve(0)
-    }
-
-}
+    }}

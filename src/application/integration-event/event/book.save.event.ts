@@ -1,21 +1,20 @@
-import { Book } from 'application/domain/model/book'
 import { EventType, IntegrationEvent } from './integration.event'
-
+import { Book } from '../../domain/model/book'
 
 export class BookSaveEvent extends IntegrationEvent<Book> {
-    public static readonly ROUTING_KEY: string = 'book.save'
-    public static readonly NAME: string = 'BookSaveEvent'
+    public static readonly ROUTING_KEY: string = 'activitys.save'
+    public static readonly NAME: string = 'ActivitysSaveEvent'
 
-    constructor(public timestamp?: Date, public book?: Book) {
-        super(BookSaveEvent.NAME, EventType.BOOK, timestamp)
+    constructor(public timestamp?: Date, public activity?: Book) {
+        super(BookSaveEvent.NAME, EventType.ACTIVITY, timestamp)
     }
 
     public toJSON(): any {
-        if (!this.book) return {}
+        if (!this.activity) return {}
         return {
             ...super.toJSON(),
             ...{
-                book: this.book.toJSON()
+                activity: this.activity.toJSON()
             }
         }
     }

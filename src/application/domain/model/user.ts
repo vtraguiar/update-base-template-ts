@@ -3,30 +3,22 @@ import { IJSONSerializable } from '../utils/json.serializable.interface'
 import { IJSONDeserializable } from '../utils/json.deserializable.interface'
 import { JsonUtils } from '../utils/json.utils'
 
-export class User extends Entity implements IJSONSerializable, IJSONDeserializable<User>{
-
-    private _username?: string | undefined
-    private _password?: string | undefined
+export class User extends Entity implements IJSONSerializable, IJSONDeserializable<User> {
+    private _name?: string | undefined
     private _email?: string | undefined
+    private _books_readed?: number | undefined
+    private _books_borrowed: number = 0
 
     constructor(id?: string, created_at?: string, updated_at?: string) {
         super(id, created_at, updated_at)
     }
 
-    get username(): string | undefined {
-        return this._username
+    get name(): string | undefined {
+        return this._name
     }
 
-    set username(value: string | undefined) {
-        this._username = value
-    }
-
-    get password(): string | undefined {
-        return this._password
-    }
-
-    set password(value: string | undefined) {
-        this._password = value
+    set name(value: string | undefined) {
+        this._name = value
     }
 
     get email(): string | undefined {
@@ -35,6 +27,22 @@ export class User extends Entity implements IJSONSerializable, IJSONDeserializab
 
     set email(value: string | undefined) {
         this._email = value
+    }
+
+    get books_readed(): number | undefined {
+        return this._books_readed
+    }
+
+    set books_readed(value: number | undefined) {
+        this._books_readed = value
+    }
+
+    get books_borrowed(): number {
+        return this._books_borrowed
+    }
+
+    public incrementBooksBorrowed() {
+        this._books_borrowed++
     }
 
     public fromJSON(json: any): User {
@@ -49,9 +57,9 @@ export class User extends Entity implements IJSONSerializable, IJSONDeserializab
             json = JSON.parse(json)
         }
         if (json.id !== undefined) this.id = json.id
-        if (json.username !== undefined) this.username = json.username
-        if (json.password !== undefined) this.password = json.password
+        if (json.name !== undefined) this.name = json.name
         if (json.email !== undefined) this.email = json.email
+        if (json.books_readed !== undefined) this.books_readed = json.books_readed
 
         return this
     }
@@ -61,10 +69,9 @@ export class User extends Entity implements IJSONSerializable, IJSONDeserializab
             id: super.id,
             created_at: super.created_at,
             updated_at: super.updated_at,
-            username: this.username || undefined,
-            password: this.password || undefined,
-            email: this.email || undefined
-
+            name: this.name || undefined,
+            email: this.email || undefined,
+            books_readed: this.books_readed || undefined
         }
     }
 }

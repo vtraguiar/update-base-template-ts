@@ -1,6 +1,22 @@
-import { Book } from 'application/domain/model/book'
 import { IRepository } from './repository.interface'
+import { Book } from '../domain/model/book'
 
+/**
+ * Interface of the activity repository.
+ * Must be implemented by the user repository at the infrastructure layer.
+ *
+ * @see {@link ActivityRepository} for further information.
+ * @extends {IRepository<Activity>}
+ */
 export interface IBookRepository extends IRepository<Book> {
-    checkExist(library: Book): Promise<boolean>
+    /**
+     * Checks if an activity already has a registration.
+     * What differs from one activity to another is the start date and associated user.
+     *
+     * @param activity
+     * @return {Promise<boolean>} True if it exists or False, otherwise
+     * @throws {ValidationException | RepositoryException}
+     */
+    checkExist(activity: Book): Promise<boolean>
+
 }

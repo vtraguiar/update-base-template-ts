@@ -22,24 +22,24 @@ import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.t
 import { PublishEventBusTask } from '../background/task/publish.event.bus.task'
 import { SubscribeEventBusTask } from '../background/task/subscribe.event.bus.task'
 import { UserEntity } from '../infrastructure/entity/user.entity'
-import { UserRepoModel } from 'infrastructure/database/schema/utils/user.schema'
-import { IEntityMapper } from '../infrastructure/entity/mapper/entity.mapper.interface'
+import { BookEntity } from '../infrastructure/entity/book.entity'
+import { UserRepoModel } from '../infrastructure/database/schema/user.schema'
+import { ActivityRepoModel } from '../infrastructure/database/schema/book.schema'
+import { BookEntityMapper } from '../infrastructure/entity/mapper/book.entity.mapper'
+import { IBookMapper } from '../infrastructure/entity/mapper/entity.mapper.interface'
 import { User } from '../application/domain/model/user'
 import { UserEntityMapper } from '../infrastructure/entity/mapper/user.entity.mapper'
+import { Book } from '../application/domain/model/book'
+import { BookRepository } from '../infrastructure/repository/book.repository'
 import { IUserRepository } from '../application/port/user.repository.interface'
 import { UserRepository } from '../infrastructure/repository/user.repository'
+import { IBookRepository } from '../application/port/book.repository.interface'
+import { BookService } from '../application/service/book.service'
 import { IUserService } from '../application/port/user.service.interface'
 import { UserService } from '../application/service/user.service'
+import { IBookService } from '../application/port/book.service.interface'
+import { BookController } from '../ui/controllers/book.controller'
 import { UserController } from '../ui/controllers/user.controller'
-import { BookController } from 'ui/controllers/book.controller'
-import { BookEntity } from 'infrastructure/entity/book.entity'
-import { IBookService } from 'application/port/book.service.interface'
-import { IBookRepository } from 'application/port/book.repository.interface'
-import { BookRepository } from 'infrastructure/repository/book.repository'
-import { BookService } from 'application/service/book.service'
-import { BookRepoModel } from 'infrastructure/database/schema/book.schema'
-import { Book } from 'application/domain/model/book'
-import { BookEntityMapper } from 'infrastructure/entity/mapper/book.entity.mapper'
 
 class IoC {
     private readonly _container: Container
@@ -76,7 +76,7 @@ class IoC {
         this.container.bind(Identifier.USER_ENTITY).toConstantValue(UserEntity)
         this.container.bind(Identifier.BOOK_ENTITY).toConstantValue(BookEntity)
         this.container.bind(Identifier.USER_REPO_MODEL).toConstantValue(UserRepoModel)
-        this.container.bind(Identifier.BOOK_REPO_MODEL).toConstantValue(BookRepoModel)
+        this.container.bind(Identifier.BOOK_REPO_MODEL).toConstantValue(ActivityRepoModel)
 
         // Services
         this.container.bind<IUserService>(Identifier.USER_SERVICE).to(UserService).inSingletonScope()
@@ -95,10 +95,10 @@ class IoC {
 
         // Mappers
         this.container
-            .bind<IEntityMapper<User, UserEntity>>(Identifier.USER_ENTITY_MAPPER)
+            .bind<IBookMapper<User, UserEntity>>(Identifier.USER_ENTITY_MAPPER)
             .to(UserEntityMapper).inSingletonScope()
         this.container
-            .bind<IEntityMapper<Book, BookEntity>>(Identifier.BOOK_ENTITY_MAPPER)
+            .bind<IBookMapper<Book, BookEntity>>(Identifier.BOOK_ENTITY_MAPPER)
             .to(BookEntityMapper).inSingletonScope()
 
         // Background Services

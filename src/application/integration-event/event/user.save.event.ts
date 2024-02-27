@@ -9,7 +9,7 @@ export class UserSaveEvent extends IntegrationEvent<User> {
         super(UserSaveEvent.NAME, EventType.USER, timestamp)
     }
 
-    public tooJSON(): any {
+    public toJSON(): any {
         if (!this.user) return {}
         return {
             ...super.toJSON(),
@@ -18,4 +18,5 @@ export class UserSaveEvent extends IntegrationEvent<User> {
             }
         }
     }
+
 }

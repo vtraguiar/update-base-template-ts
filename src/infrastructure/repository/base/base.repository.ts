@@ -6,7 +6,7 @@ import { ConflictException } from '../../../application/domain/exception/conflic
 import { RepositoryException } from '../../../application/domain/exception/repository.exception'
 import { ValidationException } from '../../../application/domain/exception/validation.exception'
 import { Entity } from '../../../application/domain/model/entity'
-import { IEntityMapper } from '../../port/entity.mapper.interface'
+import { IEntityMapper } from '../../port/book.mapper.interface'
 import { Query } from '../query/query'
 
 /**

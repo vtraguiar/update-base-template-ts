@@ -59,6 +59,7 @@
       true,
       "ignore-jsdoc"
     ],
+    "no-trailing-spaces": "off",
     "no-unnecessary-initializer": true,
     "no-var-keyword": true,
     "no-console": false,

@@ -1,31 +1,40 @@
 import { inject } from 'inversify'
-import { BookSaveEvent } from '../event/book.save.event'
+import { Identifier } from '../../../di/identifiers'
+import { IBookService } from '../../port/book.service.interface'
 import { IIntegrationEventHandler } from './integration.event.handler.interface'
-import { IBookService } from 'application/port/book.service.interface'
-import { Identifier } from 'di/identifiers'
-import { ILogger } from 'utils/custom.logger'
-import { ValidationException } from 'application/domain/exception/validation.exception'
-import { Book } from 'application/domain/model/book'
-import { BookValidator } from 'application/domain/validator/book.validator'
+import { BookSaveEvent } from '../event/book.save.event'
+import { Book } from '../../domain/model/book'
+import { ValidationException } from '../../domain/exception/validation.exception'
+import { BookValidator } from '../../domain/validator/book.validator'
+import { ILogger } from '../../../utils/custom.logger'
 
 export class BookSaveEventHandler implements IIntegrationEventHandler<BookSaveEvent> {
+
+    /**
+     * Creates an instance of ActivityRemoveEventHandler.
+     *
+     * @param {IActivityService} activityService
+     * @param _logger
+     */
     constructor(
         @inject(Identifier.BOOK_SERVICE) readonly bookService: IBookService,
         @inject(Identifier.LOGGER) private readonly _logger: ILogger
-    ){
+
+    ) {
     }
 
     public handle(event: BookSaveEvent): void {
         try {
-            if (!event.book) {
-                throw new ValidationException('Event is not in the expected format!', JSON.stringify(event))
+            if (!event.activity) {
+                throw new ValidationException('Event is not in tehe expected format!', JSON.stringify(event))
             }
-            const book: Book = new Book().fromJSON(event.book)
-            BookValidator.validate(book)
 
-            this._logger.info(`Prepare to save book from ${book.id}...`)
+            const activity: Book = new Book().fromJSON(event.activity)
+            BookValidator.validate(activity)
+
+            this._logger.info(`Prepare to save activity from ${activity.id}...`)
             Promise.allSettled([
-                this.bookService.add(book)
+                this.bookService.add(activity)
             ]).then(results => {
                 for (const result of results) {
                     if (result.status === 'rejected') {

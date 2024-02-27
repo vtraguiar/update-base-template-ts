@@ -12,11 +12,10 @@ export abstract class IntegrationEvent<T> implements IJSONSerializable {
             type: this.type
         }
     }
-
 }
 
 export enum EventType {
     USER = 'users',
     MEASUREMENT = 'measurements',
-    BOOK = 'book'
+    ACTIVITY = 'activities'
 }

@@ -2,10 +2,10 @@ import { inject, injectable } from 'inversify'
 import { IBackgroundTask } from '../../application/port/background.task.interface'
 import { Identifier } from '../../di/identifiers'
 import { IEventBus } from '../../infrastructure/port/event.bus.interface'
-import { BookDeleteEventHandler } from 'application/integration-event/handler/book.delete.event.handler'
-import { DIContainer } from 'di/di'
-import { ILogger } from 'utils/custom.logger'
-import { BookDeleteEvent } from 'application/integration-event/event/book.delete.event'
+import { BookDeleteEvent } from '../../application/integration-event/event/book.delete.event'
+import { BookDeleteEventHandler } from '../../application/integration-event/handler/book.delete.event.handler'
+import { DIContainer } from '../../di/di'
+import { ILogger } from '../../utils/custom.logger'
 
 @injectable()
 export class SubscribeEventBusTask implements IBackgroundTask {
@@ -40,12 +40,12 @@ export class SubscribeEventBusTask implements IBackgroundTask {
                 this._logger
             ),
                 BookDeleteEvent.ROUTING_KEY
-        )
-        .then((result: boolean) => {
-            if (result) this._logger.info('Subscribe in bookDeleteEvent successfull!')
-        })
-        .catch(err => {
-            this._logger.error(`Error in Subscribe Book! ${err.message}`)
-        })
+            )
+            .then((result: boolean) => {
+                if (result) this._logger.info('Subscribe in ActivityDeleteEvent successful!')
+            })
+            .catch(err => {
+                this._logger.error(`Error in Subscribe Activity! ${err.message}`)
+            })
     }
 }
