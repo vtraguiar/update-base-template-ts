@@ -11,7 +11,8 @@ import { ILogger } from '../../utils/custom.logger'
 import { ApiExceptionManager } from '../exception/api.exception.manager'
 import { ApiException } from '../exception/api.exception'
 import { IUserService } from '../../application/port/user.service.interface'
-import { BookReservationRepository } from 'infrastructure/repository/bookLoan.repository'
+import { User } from '../../application/domain/model/user'
+// import { BookReservationRepository } from 'infrastructure/repository/bookLoan.repository'
 
 /**
  * Controller that implements Book feature operations.
@@ -33,7 +34,7 @@ export class BookController {
     constructor(
         @inject(Identifier.BOOK_SERVICE) private readonly _bookService: IBookService,
         @inject(Identifier.USER_SERVICE) private readonly _userService: IUserService,
-        @inject(Identifier.BOOK_LOAN_SERVICE) private readonly _bookReservationRepository: BookReservationRepository,
+        // @inject(Identifier.BOOK_LOAN_SERVICE) private readonly _bookReservationRepository: BookReservationRepository,
         @inject(Identifier.LOGGER) readonly _logger: ILogger
     ) {
     }
@@ -141,28 +142,46 @@ export class BookController {
         }
     }
 
+    /*@httpPost('/:book_id/borrow/:user_id')
+    public async borrowBook(@request() req: Request, @response() res: Response): Promise<Response | undefined> {
+        try {
+            const book = await this._bookService.getById(req.params.book_id, new Query())
+            const user = await this._userService.getById(req.params.user_id, new Query())
+
+            if (!book || !user) {
+                return res.status(404).json({ error: 'Livro ou usuário não encontrado' })
+            }
+
+            const reservation = await this._bookReservationRepository.reserveBook(book, user)
+
+            if (reservation) {
+                return res.status(200).json({ message: 'Livro emprestado com sucesso', reservation })
+            } else {
+                return res.status(500).json({ error: 'Falha ao pegar o livro emprestado' })
+            }
+        } catch (error) {
+            console.error('Erro ao pegar o livro emprestado', error)
+            return res.status(500).json({ error: 'Um erro ocorreu ao tentar pegar o livro emprestado' })
+        }
+    }*/
+
     @httpPost('/:book_id/borrow/:user_id')
-public async borrowBook(@request() req: Request, @response() res: Response): Promise<Response | undefined> {
-    try {
-        const book = await this._bookService.getById(req.params.book_id, new Query())
-        const user = await this._userService.getById(req.params.user_id, new Query())
+    public async borrowBook(@request() req: Request, @response() res: Response): Promise<Response | undefined> {
+        try {
+            const { book_id, user_id } = req.params
+            const book: Book | undefined = await this._bookService.getById(book_id, new Query())
+            const user: User | undefined = await this._userService.getById(user_id, new Query())
 
-        if (!book || !user) {
-            return res.status(404).json({ error: 'Livro ou usuário não encontrado' })
+            const reservation = await this._bookService.reserveBook(book, user)
+
+            return res.status(HttpStatus.OK).send(reservation)
+
+        } catch (err: any) {
+            const handlerError = ApiExceptionManager.build(err)
+            return res.status(handlerError.code)
+                .send(handlerError.toJSON())
         }
-
-        const reservation = await this._bookReservationRepository.reserveBook(book, user)
-
-        if (reservation) {
-            return res.status(200).json({ message: 'Livro emprestado com sucesso', reservation })
-        } else {
-            return res.status(500).json({ error: 'Falha ao pegar o livro emprestado' })
-        }
-    } catch (error) {
-        console.error('Erro ao pegar o livro emprestado', error)
-        return res.status(500).json({ error: 'Um erro ocorreu ao tentar pegar o livro emprestado' })
     }
-}
 
 
     private getMessageNotFoundBook(): object {

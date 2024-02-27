@@ -4,6 +4,9 @@ import { IBookService } from '../port/book.service.interface'
 import { IBookRepository } from '../port/book.repository.interface'
 import { Book } from '../domain/model/book'
 import { IQuery } from '../port/query.interface'
+import { User } from '../domain/model/user'
+import { Reservation } from '../domain/model/reservation'
+import randomstring from 'randomstring'
 
 /**
  * Implementing book Service.
@@ -81,4 +84,28 @@ export class BookService implements IBookService {
 
     public count(query: IQuery): Promise<number> {
         return Promise.resolve(0)
-    }}
+    }
+
+    public reserveBook(book: Book, user: User): Promise<Reservation | undefined> {
+        try {
+            if (book.status !== true) {
+                throw new Error('O livro não está disponível para reserva!')
+            }
+
+            const reservation: Reservation = {
+                bookId: book.id,
+                userId: user.id,
+                reservationDate: new Date(),
+                loanId: randomstring.generate({ length: 10 })
+            }
+
+            user.incrementBooksBorrowed()
+            console.log(user.books_borrowed)
+            book.status = false
+            return Promise.resolve(reservation)
+        } catch (error: any) {
+            console.error('Erro ao reservar o livro:', error.message)
+            return Promise.reject(error.message)
+        }
+    }
+}
