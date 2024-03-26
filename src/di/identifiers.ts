@@ -5,14 +5,19 @@ export abstract class Identifier {
     public static readonly HOME_CONTROLLER: any = Symbol.for('HomeController')
 
     // Services
+    public static readonly USER_SERVICE: any = Symbol.for('UserService')
 
     // Repositories
     public static readonly INTEGRATION_EVENT_REPOSITORY: any = Symbol.for('IntegrationEventRepository')
+    public static readonly USER_REPOSITORY: any = Symbol.for('UserRepository')
 
     // Models
     public static readonly INTEGRATION_EVENT_REPO_MODEL: any = Symbol.for('IntegrationEventRepoModel')
+    public static readonly USER_REPO_MODEL: any = Symbol.for('UserRepoModel')
+    public static readonly USER_ENTITY: any = Symbol.for('UserEntity')
 
     // Mappers
+    public static readonly USER_ENTITY_MAPPER: any = Symbol.for('UserEntityMapper')
 
     // Background Services
     public static readonly MONGODB_CONNECTION_FACTORY: any = Symbol.for('ConnectionFactoryMongodb')
