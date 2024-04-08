@@ -14,8 +14,7 @@ export class UserController {
 
     constructor(
         @inject(Identifier.USER_SERVICE) private readonly _userService: IUserService,
-    ){
-}
+    ){}
 
   @httpPost('/')
   public async addUser(
@@ -45,7 +44,7 @@ export class UserController {
 
     }
 
-    @httpGet('/:user_id')
+    @httpGet('/user_id')
     public async getUserById(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
             const result: User | undefined = await this._userService.getById(req.params.user_id, new Query().fromJSON(req.query))
@@ -58,16 +57,10 @@ export class UserController {
         }
     }
 
-    /**
-     * Update user by id.
-     *
-     * @param {Request} req
-     * @param {Response} res
-     */
     @httpPatch('/:user_id')
     public async updateUser(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
-            const user: User = new User().fromJSON({ name: req.body.name, email: req.body.email })
+            const user: User = new User().fromJSON({ name: req.body.name, password: req.body.password , email: req.body.email})
             const result = await this._userService.update(user)
             if (!result) return res.status(HttpStatus.NOT_FOUND).send(this.getMessageNotFoundUser())
             return res.status(HttpStatus.OK).send(result)
@@ -78,13 +71,7 @@ export class UserController {
         }
     }
 
-    /**
-     * Remove user by id.
-     *
-     * @param {Request} req
-     * @param {Response} res
-     */
-    @httpDelete('/:user_id')
+    @httpDelete(':/user_id')
     public async removeUser(@request() req: Request, @response() res: Response): Promise<Response> {
         try {
             const result: boolean = await this._userService.remove(req.params.user_id)
@@ -97,11 +84,6 @@ export class UserController {
         }
     }
 
-    /**
-     * Method that parses entities from the model layer to JSON objects.
-     * @param {User | Array<User> | undefined} entity
-     * @private
-     */
     private toJSONView(
         entity: User | Array<User> | undefined
     ): object {
@@ -117,3 +99,4 @@ export class UserController {
         ).toJSON()
     }
 }
+

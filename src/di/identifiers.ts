@@ -15,10 +15,12 @@ export abstract class Identifier {
     public static readonly INTEGRATION_EVENT_REPO_MODEL: any = Symbol.for('IntegrationEventRepoModel')
     public static readonly USER_REPO_MODEL: any = Symbol.for('UserRepoModel')
     public static readonly USER_ENTITY: any = Symbol.for('UserEntity')
+    public static readonly LIBRARY_ENTITY: any = Symbol.for('LibraryEntity')
+    public static readonly LIBRARY_REPO_MODEL: any = Symbol.for('LibraryRepoModel')
 
     // Mappers
     public static readonly USER_ENTITY_MAPPER: any = Symbol.for('UserEntityMapper')
-
+    public static readonly LIBRARY_ENTITY_MAPPER: any = Symbol.for('LibraryEntityMapper')
     // Background Services
     public static readonly MONGODB_CONNECTION_FACTORY: any = Symbol.for('ConnectionFactoryMongodb')
     public static readonly MONGODB_CONNECTION: any = Symbol.for('ConnectionMongodb')
