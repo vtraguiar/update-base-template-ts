@@ -6,7 +6,7 @@ export abstract class Identifier {
 
     // Services
     public static readonly USER_SERVICE: any = Symbol.for('UserService')
-
+    public static readonly BOOK_SERVICE: any = Symbol.for('BookService')
     // Repositories
     public static readonly INTEGRATION_EVENT_REPOSITORY: any = Symbol.for('IntegrationEventRepository')
     public static readonly USER_REPOSITORY: any = Symbol.for('UserRepository')
