@@ -1,4 +1,4 @@
-export class LibraryEntity {
+export class BookEntity {
     public title?: string
     public author?: string
     public number_of_pages?: string

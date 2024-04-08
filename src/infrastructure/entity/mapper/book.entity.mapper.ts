@@ -1,18 +1,18 @@
-import { Library } from 'application/domain/model/library'
+import { Book } from 'application/domain/model/book'
 import { IEntityMapper } from './entity.mapper.interface'
-import { LibraryEntity } from '../library.entity'
+import { BookEntity } from '../book.entity'
 import { injectable } from 'inversify'
 
 
 @injectable()
-export class LibraryEntityMapper implements IEntityMapper<Library, LibraryEntity> {
+export class BookEntityMapper implements IEntityMapper<Book, BookEntity> {
     public transform(item: any): any {
-        if (item instanceof Library) return this.modelToModelEntity(item)
+        if (item instanceof Book) return this.modelToModelEntity(item)
         return this.jsonToModel(item)
     }
 
-    public modelToModelEntity(item: Library): LibraryEntity {
-        const result: LibraryEntity = new LibraryEntity()
+    public modelToModelEntity(item: Book): BookEntity {
+        const result: BookEntity = new BookEntity()
 
         if (item.title !== undefined) result.title = item.title
         if (item.author !== undefined) result.author = item.author
@@ -24,8 +24,8 @@ export class LibraryEntityMapper implements IEntityMapper<Library, LibraryEntity
         return result
     }
 
-    public modelEntityToModel(item: LibraryEntity): Library {
-        const result: Library = new Library()
+    public modelEntityToModel(item: BookEntity): Book {
+        const result: Book = new Book()
 
         if (item.title !== undefined) result.title = item.title
         if (item.author !== undefined) result.author = item.author
@@ -37,8 +37,8 @@ export class LibraryEntityMapper implements IEntityMapper<Library, LibraryEntity
         return result
     }
 
-    public jsonToModel(json: any): Library {
-        const result: Library = new Library()
+    public jsonToModel(json: any): Book {
+        const result: Book = new Book()
         if (!json) return result
         if (json.id !== undefined) result.id = json.identifiers
         if (json.title !== undefined) result.title = json.title

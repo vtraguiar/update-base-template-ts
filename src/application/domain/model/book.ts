@@ -3,7 +3,7 @@ import { IJSONSerializable } from '../utils/json.serializable.interface'
 import { JsonUtils } from '../utils/json.utils'
 import { Entity } from './entity'
 
-export class Library extends Entity implements IJSONSerializable, IJSONDeserializable<Library>{
+export class Book extends Entity implements IJSONSerializable, IJSONDeserializable<Book>{
 
     private _title?: string | undefined
     private _author?: string | undefined
@@ -64,7 +64,7 @@ export class Library extends Entity implements IJSONSerializable, IJSONDeseriali
         this._publisher = value
     }
 
-    public fromJSON(json: any): Library {
+    public fromJSON(json: any): Book {
         if (!json) {
             return this
         }

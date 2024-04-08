@@ -10,17 +10,18 @@ export abstract class Identifier {
     // Repositories
     public static readonly INTEGRATION_EVENT_REPOSITORY: any = Symbol.for('IntegrationEventRepository')
     public static readonly USER_REPOSITORY: any = Symbol.for('UserRepository')
+    public static readonly BOOK_REPOSITORY: any = Symbol.for('BookRepository')
 
     // Models
     public static readonly INTEGRATION_EVENT_REPO_MODEL: any = Symbol.for('IntegrationEventRepoModel')
     public static readonly USER_REPO_MODEL: any = Symbol.for('UserRepoModel')
     public static readonly USER_ENTITY: any = Symbol.for('UserEntity')
-    public static readonly LIBRARY_ENTITY: any = Symbol.for('LibraryEntity')
-    public static readonly LIBRARY_REPO_MODEL: any = Symbol.for('LibraryRepoModel')
+    public static readonly BOOK_ENTITY: any = Symbol.for('BookEntity')
+    public static readonly BOOK_REPO_MODEL: any = Symbol.for('BookRepoModel')
 
     // Mappers
     public static readonly USER_ENTITY_MAPPER: any = Symbol.for('UserEntityMapper')
-    public static readonly LIBRARY_ENTITY_MAPPER: any = Symbol.for('LibraryEntityMapper')
+    public static readonly BOOK_ENTITY_MAPPER: any = Symbol.for('BookEntityMapper')
     // Background Services
     public static readonly MONGODB_CONNECTION_FACTORY: any = Symbol.for('ConnectionFactoryMongodb')
     public static readonly MONGODB_CONNECTION: any = Symbol.for('ConnectionMongodb')
