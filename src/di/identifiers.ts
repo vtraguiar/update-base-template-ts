@@ -3,6 +3,8 @@ export abstract class Identifier {
 
     // Controllers
     public static readonly HOME_CONTROLLER: any = Symbol.for('HomeController')
+    public static readonly USER_CONTROLLER: any = Symbol.for('UserController')
+    public static readonly BOOK_CONTROLLER: any = Symbol.for('BookController')
 
     // Services
     public static readonly USER_SERVICE: any = Symbol.for('UserService')
