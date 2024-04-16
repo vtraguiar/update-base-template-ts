@@ -10,6 +10,7 @@ export abstract class Identifier {
     public static readonly USER_SERVICE: any = Symbol.for('UserService')
     public static readonly BOOK_SERVICE: any = Symbol.for('BookService')
     public static readonly BOOK_LOAN_SERVICE: any = Symbol.for('BookReservation')
+
     // Repositories
     public static readonly INTEGRATION_EVENT_REPOSITORY: any = Symbol.for('IntegrationEventRepository')
     public static readonly USER_REPOSITORY: any = Symbol.for('UserRepository')
@@ -36,9 +37,6 @@ export abstract class Identifier {
 
     // Tasks
     public static readonly REGISTER_SETTINGS_TASK: any = Symbol.for('RegisterSettingsTask')
-    public static readonly PUBLISH_EVENT_BUS_TASK: any = Symbol.for('PublishEventBusTask')
-    public static readonly SUBSCRIBE_EVENT_BUS_TASK: any = Symbol.for('SubscribeEventBusTask')
-    public static readonly RPC_SERVER_EVENT_BUS_TASK: any = Symbol.for('RpcServerEventBusTask')
 
     // Log
     public static readonly LOGGER: any = Symbol.for('CustomLogger')

@@ -18,9 +18,6 @@ import { IConnectionEventBus } from '../infrastructure/port/connection.event.bus
 import { IIntegrationEventRepository } from '../application/port/integration.event.repository.interface'
 import { IntegrationEventRepository } from '../infrastructure/repository/integration.event.repository'
 import { IntegrationEventRepoModel } from '../infrastructure/database/schema/integration.event.schema'
-import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
-import { PublishEventBusTask } from '../background/task/publish.event.bus.task'
-import { SubscribeEventBusTask } from '../background/task/subscribe.event.bus.task'
 import { UserEntity } from '../infrastructure/entity/user.entity'
 import { BookEntity } from '../infrastructure/entity/book.entity'
 import { UserRepoModel } from '../infrastructure/database/schema/user.schema'
@@ -125,15 +122,6 @@ class IoC {
         this._container
             .bind<IBackgroundTask>(Identifier.REGISTER_SETTINGS_TASK)
             .to(RegisterTask).inRequestScope()
-        this._container
-            .bind<IBackgroundTask>(Identifier.PUBLISH_EVENT_BUS_TASK)
-            .to(PublishEventBusTask).inRequestScope()
-        this._container
-            .bind<IBackgroundTask>(Identifier.SUBSCRIBE_EVENT_BUS_TASK)
-            .to(SubscribeEventBusTask).inRequestScope()
-        this._container
-            .bind<IBackgroundTask>(Identifier.RPC_SERVER_EVENT_BUS_TASK)
-            .to(RpcServerEventBusTask).inRequestScope()
 
         // Log
         this._container.bind<ILogger>(Identifier.LOGGER).to(CustomLogger).inSingletonScope()
