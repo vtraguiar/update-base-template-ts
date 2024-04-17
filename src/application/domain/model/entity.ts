@@ -16,11 +16,11 @@ export abstract class Entity {
         this._updated_at = updated_at
     }
 
-    get id(): string | undefined{
+    get id(): string | undefined {
         return this._id
     }
 
-    set id(value: string) {
+    set id(value: string | undefined) {
         this._id = value
     }
 
@@ -42,4 +42,3 @@ export abstract class Entity {
 
     public abstract toJSON(): any
 }
-
