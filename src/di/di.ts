@@ -21,8 +21,20 @@ import { IntegrationEventRepoModel } from '../infrastructure/database/schema/int
 import { RpcServerEventBusTask } from '../background/task/rpc.server.event.bus.task'
 import { PublishEventBusTask } from '../background/task/publish.event.bus.task'
 import { SubscribeEventBusTask } from '../background/task/subscribe.event.bus.task'
-// import { UserService } from 'application/service/user.service'
-// import { IUserService } from 'application/port/user.service.interface'
+import { UserController } from 'ui/controllers/user.controller'
+import { IUserService } from 'application/port/user.service.interface'
+import { UserService } from 'application/service/user.service'
+import { UserEntity } from 'infrastructure/entity/user.entity'
+import { BookController } from 'ui/controllers/book.controller'
+import { UserRepoModel } from 'infrastructure/database/schema/utils/user.schema'
+import { IBookService } from 'application/port/book.service.interface'
+import { BookRepoModel } from 'infrastructure/database/schema/book.schema'
+import { BookEntity } from 'infrastructure/entity/book.entity'
+import { BookService } from 'application/service/book.service'
+import { IBookRepository } from 'application/port/book.repository.interface'
+import { BookRepository } from 'infrastructure/repository/book.repository'
+import { UserRepository } from 'infrastructure/repository/user.repository'
+import { IUserRepository } from 'application/port/user.repository.interface'
 
 class IoC {
     private readonly _container: Container
@@ -51,17 +63,32 @@ class IoC {
 
         // Controllers
         this._container.bind<HomeController>(Identifier.HOME_CONTROLLER).to(HomeController).inSingletonScope()
+        this.container.bind<UserController>(Identifier.USER_CONTROLLER).to(UserController).inSingletonScope()
+        this.container.bind<BookController>(Identifier.BOOK_CONTROLLER).to(BookController).inSingletonScope()
+
 
         // services
+        this.container.bind<IUserService>(Identifier.USER_SERVICE).to(UserService).inSingletonScope()
+        this.container.bind<IBookService>(Identifier.BOOK_SERVICE).to(BookService).inSingletonScope()
 
         // Models
         this._container.bind(Identifier.INTEGRATION_EVENT_REPO_MODEL).toConstantValue(IntegrationEventRepoModel)
+        this.container.bind(Identifier.USER_ENTITY).toConstantValue(UserEntity)
+        this.container.bind(Identifier.BOOK_ENTITY).toConstantValue(BookEntity)
+        this.container.bind(Identifier.USER_REPO_MODEL).toConstantValue(UserRepoModel)
+        this.container.bind(Identifier.BOOK_REPO_MODEL).toConstantValue(BookRepoModel)
 
 
         // Repositors
         this._container
             .bind<IIntegrationEventRepository>(Identifier.INTEGRATION_EVENT_REPOSITORY)
             .to(IntegrationEventRepository).inSingletonScope()
+        this.container
+            .bind<IUserRepository>(Identifier.USER_REPOSITORY)
+            .to(UserRepository).inSingletonScope()
+        this.container
+            .bind<IBookRepository>(Identifier.BOOK_REPOSITORY)
+            .to(BookRepository).inSingletonScope()
 
         // Background Services
         this._container
